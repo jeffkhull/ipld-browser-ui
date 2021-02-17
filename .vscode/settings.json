@@ -1,0 +1,15 @@
+{
+  "javascript.preferences.quoteStyle": "double",
+  "typescript.preferences.quoteStyle": "double",
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "mochaExplorer.files": "src/**/*.spec.ts",
+  "mochaExplorer.esmLoader": true,
+  "mochaExplorer.exit": true,
+  "mochaExplorer.require": ["ts-node/register", "source-map-support/register"],
+  "mochaExplorer.launcherScript": "node_modules/mocha-explorer-launcher-scripts/nyc",
+  "mochaExplorer.env": {
+    "TS_NODE_FILES": "true",
+    "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\" }"
+  }
+}

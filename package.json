@@ -1,0 +1,130 @@
+{
+  "name": "sl_gui_grommet",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/icons": "^1.0.5",
+    "@chakra-ui/react": "^1.3.3",
+    "@chakra-ui/system": "^1.3.1",
+    "@emotion/core": "^10.1.1",
+    "@emotion/css": "^10.0.27",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "@reach/router": "^1.3.4",
+    "@textile/threaddb": "0.0.6",
+    "@types/node": "^14.14.28",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "@types/react-resizable": "^1.7.2",
+    "bcryptjs": "^2.4.3",
+    "dexie": "^3.0.3",
+    "emotion": "^10.0.27",
+    "ethers": "^5.0.31",
+    "formik": "^2.2.6",
+    "framer-motion": "^3.3.0",
+    "grommet": "^2.16.3",
+    "grommet-icons": "^4.5.0",
+    "history": "^5.0.0",
+    "is-hotkey": "^0.2.0",
+    "moment": "^2.29.1",
+    "re-resizable": "^6.9.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-draggable": "^4.4.3",
+    "react-grid-layout": "^1.2.0",
+    "react-icons": "^4.2.0",
+    "react-resizable": "^1.11.0",
+    "react-rnd": "^10.2.4",
+    "react-select": "^4.1.0",
+    "slate": "^0.59.0",
+    "slate-history": "^0.59.0",
+    "slate-react": "^0.59.0",
+    "styled-components": "^5.2.1",
+    "to-json-schema": "^0.2.5",
+    "ulid": "^2.3.0",
+    "util": "^0.12.3",
+    "zustand": "^3.3.1"
+  },
+  "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.0",
+    "@types/reach__router": "^1.3.7",
+    "@types/react-grid-layout": "^1.1.1",
+    "@types/react-redux": "^7.1.16",
+    "@types/react-select": "^4.0.13",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
+    "buffer": "^6.0.3",
+    "chai": "^4.3.0",
+    "copy-webpack-plugin": "^6.4.0",
+    "electron-rebuild": "^2.3.5",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "html-webpack-plugin": "^4.5.0",
+    "mocha": "^8.3.0",
+    "mocha-explorer-launcher-scripts": "^0.3.0",
+    "nyc": "^15.1.0",
+    "polendina": "^1.1.0",
+    "prettier": "^2.2.1",
+    "raw-loader": "^4.0.2",
+    "source-map-support": "^0.5.19",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.17",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
+    "typescript": "^4.1.5",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "scripts": {
+    "checkNpmUpdates": "ncu --reject \"webpack,@emotion/core,@emotion/css,emotion,copy-webpack-plugin,webpack-cli,html-webpack-plugin\"",
+    "applyNpmUpdates": "ncu -u --reject \"webpack,@emotion/core,@emotion/css,emotion,copy-webpack-plugin,webpack-cli,html-webpack-plugin\"",
+    "lint:fix": "eslint --fix \"src/**/*.{ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "pack": "NODE_ENV=production webpack",
+    "prettier:apply": "prettier --write \"{,!(dist)}/**/*.{json,yml,yaml,ts,tsx}\"",
+    "prettier:check": "prettier --check \"{,!(dist)}/**/*.{json,yml,yaml,ts,tsx}\"",
+    "start:webpack5": "NODE_ENV=DEV webpack serve --progress --inline",
+    "start": "NODE_ENV=DEV webpack-dev-server --progress --inline",
+    "test:report": "sensible-browser ./coverage/lcov-report/index.html",
+    "test:browser": "nyc --reporter=lcov polendina src/**/*.spec.ts --webpack-config=./webpack.test.js",
+    "test:node": "env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' nyc --reporter=lcov mocha"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "mocha": {
+    "spec": "src/**/*.spec.ts",
+    "reporter": "spec",
+    "recursive": true,
+    "require": [
+      "ts-node/register"
+    ],
+    "exit": true,
+    "esmLoader": true
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "check-coverage": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/**/*.spec.ts"
+    ]
+  }
+}

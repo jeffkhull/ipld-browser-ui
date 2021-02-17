@@ -1,0 +1,37 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "pack",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": [],
+      "label": ""
+    },
+    {
+      "type": "npm",
+      "script": "textile:check",
+      "problemMatcher": [],
+      "label": "npm: textile:check",
+      "detail": "npx ncu '/^@textile/.*$/'"
+    },
+    {
+      "type": "npm",
+      "script": "checkNpmUpdates",
+      "problemMatcher": [],
+      "label": "npm: checkNpmUpdates",
+      "detail": "npx ncu"
+    }
+  ]
+}
