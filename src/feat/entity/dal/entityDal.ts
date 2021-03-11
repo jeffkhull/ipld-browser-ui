@@ -54,45 +54,6 @@ export async function setEntityDeprecated(
   // return await fetchUtil.postToServerNow(endpoints.deprecateEntity, payload)
 }
 
-export async function upsertEntityDocument(req: any): Promise<void> {
-  throw new NotImplementedException('Method')
-  // return await fetchUtil.postToServerNow(endpoints.upsertEntityDoc, req)
-}
-
-export async function updateEntityName(
-  entityId: string,
-  newName: string,
-  namespaceId: string,
-): Promise<void> {
-  throw new NotImplementedException('Method')
-  // const req: UpdateEntityNameRequest = {
-  //   EntityId: entityId,
-  //   NewName: newName,
-  //   NamespaceId: namespaceId,
-  // }
-  // const res = await fetchUtil.postToServerNow(endpoints.updateEntityName, req)
-}
-
-export async function updateEntityClass(
-  entityId: string,
-  entityClassId: string,
-  entityNamespaceId: string,
-): Promise<void> {
-  throw new NotImplementedException('Method')
-  // const req: UpdateEntityClassRequest = {
-  //   EntityId: entityId,
-  //   NamespaceId: entityNamespaceId,
-  //   NewEntityClassId: entityClassId,
-  // }
-  // return await fetchUtil.postToServerNow(endpoints.updateEntityClass, req)
-}
-
-export async function searchEntityName(searchString: string): Promise<StringIndexable[]> {
-  throw new NotImplementedException('Method')
-  // const req: SearchEntityNameRequest = { SearchString: searchString }
-  // return await fetchUtil.postToServerNow(endpoints.searchEntityName, req)
-}
-
 export async function searchEntityNameWithCallback(
   searchString: string,
   callback: (res: StringIndexable[]) => void,

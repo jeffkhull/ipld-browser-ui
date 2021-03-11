@@ -108,7 +108,7 @@ export function EntityEditButtons(props: EntityEditButtonsProps) {
           id="favorite-entity-btn"
           title="Add to Favorites"
           className={cx(mb15, mr20)}
-          leftIcon={<GrStar color={light3} />}
+          leftIcon={<GrStar color="#ffffff" />}
           onClick={() => void createFavorite()}
         >
           Add to Favorites

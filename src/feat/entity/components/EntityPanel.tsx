@@ -105,41 +105,6 @@ export function EntityPanel(props: {
     }
   }, [props.entityId])
 
-  const doEntityDocUpdate = React.useCallback(async () => {
-    if (entityStore.ENTITY_ID == null) return
-
-    setEntityIsUpdating(true)
-    window.clearTimeout(docUpdateTimeoutRef.current)
-
-    docUpdateTimeoutRef.current = window.setTimeout(() => {
-      if (
-        entityMemoryState.docUpdatePending &&
-        !entityMemoryState.docIsUpdating &&
-        entityStore.ENTITY_ID != null
-      ) {
-        entityMemoryState.docIsUpdating = true
-        const toUpdateSnapshot = entityMemoryState.draftDoc.slice()
-        clearDraftDocNodes()
-        void serverActions
-          .upsertEntityDocument(entityStore.ENTITY_ID, toUpdateSnapshot)
-          .then((x) => {
-            setEntityIsUpdating(false)
-            entityMemoryState.docUpdatePending = false
-            entityMemoryState.docIsUpdating = false
-          })
-          .catch((e) => {
-            console.error('Error upserting entity document!')
-            throw e
-          })
-      }
-    }, 500)
-  }, [
-    entityStore.ENTITY_ID,
-    entityStore.ENTITY_NAMESPACE_ID,
-    entityMemoryState.docUpdatePending,
-    entityMemoryState.docIsUpdating,
-  ])
-
   const doEntityNameUpdate = React.useCallback(
     async (newName: string) => {
       if (entityStore.ENTITY_ID == null) return
@@ -154,13 +119,11 @@ export function EntityPanel(props: {
           entityStore.ENTITY_ID != null
         ) {
           entityMemoryState.nameIsUpdating = true
-          void entityDal
-            .updateEntityName(entityStore.ENTITY_ID, newName, entityStore.ENTITY_NAMESPACE_ID)
-            .then((x) => {
-              entityMemoryState.nameUpdatePending = false
-              entityMemoryState.nameIsUpdating = false
-              setEntityIsUpdating(false)
-            })
+          void EntityHeaderService.updateEntityName(entityStore.ENTITY_ID, newName).then((x) => {
+            entityMemoryState.nameUpdatePending = false
+            entityMemoryState.nameIsUpdating = false
+            setEntityIsUpdating(false)
+          })
         }
       }, 500)
     },

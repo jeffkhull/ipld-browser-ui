@@ -42,11 +42,9 @@ export class UserFavoritesService {
   }
 
   static deleteFavorite = async (entityId: string) => {
-    throw new NotImplementedException('UserFavoritesService.deleteFavorite')
-    // const existing = await UserFavoritesService.getForTargetId(entityId)
-    // if (existing.length === 0)
-    //   throw new Error(`Cannot delete favorite for entity ${entityId}.  One does not exist.`)
-    // await repoMgr.userFavorites.deleteOne(existing[0]._id)
+    // throw new NotImplementedException('UserFavoritesService.deleteFavorite')
+    const qry = repoMgr.userFavorites.find({ targetId: { $eq: entityId } })
+    void qry.delete()
   }
 
   static getAllReadable = async (): Promise<UserFavoriteReadable[]> => {

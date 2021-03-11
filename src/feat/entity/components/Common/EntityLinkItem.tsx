@@ -4,6 +4,7 @@ import React from 'react'
 import { StringIndexable } from '../../../indexes/models/StringIndexable'
 import { NotImplementedException } from '../../../../common/exceptions/not-implemented.exception'
 import { navigateWithCtrlSensitivity } from '../../../../common/util/navigate'
+import { EntityClassService } from '../../../class/services/entity-class.service'
 
 export interface RecentActivityItemProps {
   item: StringIndexable
@@ -12,22 +13,17 @@ export interface RecentActivityItemProps {
 export function EntityLinkItem(props: RecentActivityItemProps) {
   const [title, setTitle] = React.useState('')
   const getTitle = React.useCallback(async (item: StringIndexable) => {
-    throw new NotImplementedException('Method')
-    // const classId = item.classId
+    const entityClass = await EntityClassService.getEntityClass(item.classId)
 
-    // const entityClass = await IxSearch.getItemByIdFromIndexedDb(
-    //   IxSearch.IndexedItemType.CLASS,
-    //   classId,
-    // )
+    let className = ''
+    if (entityClass?.name != null && entityClass?.name !== '')
+      className = ' (' + entityClass.name + ')'
 
-    // let className = ''
-    // if (entityClass != null && entityClass.value != null) className = ' (' + entityClass.value + ')'
-
-    // if (item.isDeprecated === 0) {
-    //   setTitle(item.value + className)
-    // } else {
-    //   setTitle(item.value + className + ' (deprecated)')
-    // }
+    if (item.isDeprecated !== true) {
+      setTitle(item.value + className)
+    } else {
+      setTitle(item.value + className + ' (deprecated)')
+    }
   }, [])
 
   React.useEffect(() => {

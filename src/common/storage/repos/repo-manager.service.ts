@@ -13,6 +13,7 @@ import { UserFavorite } from '../../../feat/preferences/models/user-favorite.mod
 import { UserFavoriteSchema } from '../../../feat/preferences/textileSchemas/user-favorite.schema'
 import { Relation } from '../../../feat/relation/models/relation.model'
 import { RelationSchema } from '../../../feat/relation/textileSchemas/relation.schema'
+import { SearchService } from '../../../feat/search/services/search.service'
 import { Namespace } from '../../../feat/spaces/model/namespace.model'
 import { NamespaceSchema } from '../../../feat/spaces/textileSchemas/NamespaceSchema'
 import { UserModel } from '../../../feat/user/models/user.model'
@@ -70,7 +71,12 @@ export class RepoService {
 
     // Only authenticate if we have not opted out of remote for testing
     if (options.localOnly != null && options.localOnly !== true) await this.authenticate()
+
     this._initialized = true
+  }
+
+  public initSearchIndex = async () => {
+    await SearchService.initEntityHeaderCache()
   }
 
   public get isInitialized(): boolean {

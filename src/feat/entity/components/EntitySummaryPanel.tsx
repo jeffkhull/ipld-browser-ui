@@ -118,18 +118,30 @@ export function EntitySummaryPanel(props: EntitySummaryPanelProps) {
               flex: 0 0 400px;
             `}
           >
-            <Input
-              size="lg"
-              placeholder="Search items..."
-              value={searchFilter.nameSearchTerm || ''}
-              onChange={(e) => setSearchFilter({ ...searchFilter, nameSearchTerm: e.target.value })}
-              //   ref={searchDropRef as any}
-              onKeyUp={(e) => {
-                if (e.key === 'Escape') setSearchFilter({ ...searchFilter, nameSearchTerm: '' })
+            <EntitySearchResultDrop
+              visible={searchDropVisible}
+              onClickOutside={() => {
+                setSearchDropVisible(false)
               }}
-              onFocus={() => setSearchDropVisible(true)}
-              // onBlur={() => setSearchDropVisible(false)}
-            />
+              searchFilter={searchFilter}
+            >
+              <Box>
+                <Input
+                  size="lg"
+                  placeholder="Search items..."
+                  value={searchFilter.nameSearchTerm || ''}
+                  onChange={(e) =>
+                    setSearchFilter({ ...searchFilter, nameSearchTerm: e.target.value })
+                  }
+                  //   ref={searchDropRef as any}
+                  onKeyUp={(e) => {
+                    if (e.key === 'Escape') setSearchFilter({ ...searchFilter, nameSearchTerm: '' })
+                  }}
+                  onFocus={() => setSearchDropVisible(true)}
+                  // onBlur={() => setSearchDropVisible(false)}
+                />
+              </Box>
+            </EntitySearchResultDrop>
           </Box>
           <EntityFilterControl
             className={css`
@@ -141,12 +153,6 @@ export function EntitySummaryPanel(props: EntitySummaryPanelProps) {
             }}
           />
         </Box>
-        <EntitySearchResultDrop
-          searchFilter={searchFilter}
-          dropRef={searchDropRef}
-          visible={searchDropVisible}
-          onClickOutside={(e) => setSearchDropVisible(false)}
-        />
         <Flex direction="row">
           <ItemsSummaryPanel />
           <RecentActivityPanel />

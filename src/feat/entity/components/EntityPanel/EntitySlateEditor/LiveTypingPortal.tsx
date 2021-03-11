@@ -38,10 +38,6 @@ export function LiveTypingPortal(props: LiveTypingPortalProps) {
 
   const user = useUserStore(userStoreSelectors.user)
 
-  React.useEffect(() => {
-    console.log(`indexedItems`, props.indexedItems)
-  }, [props.indexedItems])
-
   const createNewSubjectEntity = React.useCallback(
     async (
       name: string,

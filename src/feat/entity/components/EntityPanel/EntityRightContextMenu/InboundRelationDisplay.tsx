@@ -95,7 +95,6 @@ export function InboundRelationDisplay(props: InboundRelationDisplayProps) {
                   } else {
                     setActiveAccordionIx([...activeAccordionIx, outerIx])
                   }
-                  console.log(`clicked ix ${outerIx}`)
                 }}
               >
                 <Box className={bgColorClass}>

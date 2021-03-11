@@ -14,6 +14,8 @@ import {
 import { userStoreSelectors, useUserStore } from '../../user/stores/UserStore'
 import { AppDisplayContainer } from './App/AppDisplayContainer'
 import { LoadingSpinner } from './App/LoadingSpinner'
+import { SearchService } from '../../search/services/search.service'
+import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
 
 // theme https://www.canva.com/learn/website-color-schemes/ number 23
 // color picker https://www.w3schools.com/colors/colors_picker.asp
@@ -23,12 +25,18 @@ export function App(props: { path: string }) {
   const incrementWaiters = useNotificationStore(notifMutators.incrementWaiters)
   const decrementWaiters = useNotificationStore(notifMutators.decrementWaiters)
 
+  const initSearchIndex = React.useCallback(async () => {
+    console.log(`INITING SEARCH INDEX`)
+    await SearchService.initEntityHeaderCache()
+  }, [])
+
   React.useEffect(() => {
     // TODO - not implemented - login related
     // if (!user?._id) {
     //   AuthNService.SaveRouteState()
     //   void navigate('/login')
     // }
+    void initSearchIndex()
 
     incrementWaiters()
     setTimeout(() => {

@@ -1,11 +1,14 @@
 import { Box, Heading, List, ListItem } from '@chakra-ui/react'
 import React from 'react'
 import { NotImplementedException } from '../../../../common/exceptions/not-implemented.exception'
+import { EntityHeaderService } from '../../services/entity-header.service'
 import { widget33 } from '../styles'
 
 export function ItemsSummaryPanel() {
   const [collCount, setCollCount] = React.useState(0)
   const getSummaryInfo = React.useCallback(async () => {
+    const count = await EntityHeaderService.getEntityHeaderCount()
+    setCollCount(count)
     // todo - not implemented
     // throw new NotImplementedException('Method')
     // const coll = await repoMgr.getExistingCollections()

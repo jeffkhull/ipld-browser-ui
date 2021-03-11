@@ -14,19 +14,25 @@ export class EntityHeaderService {
     try {
       const instance = repoMgr.entHeaders.create(new EntityHeaderResource(namespaceId, name))
       await instance.save()
-
-      console.log(`TRY RE-RETRIEVE WHAT WE JUST WROTE`)
-      const exists = await instance.exists()
-      console.log(`exists? `, exists)
-      const header = await EntityHeaderService.getEntityHeader(instance._id)
-      console.log(`got header`, header)
-
       return instance
     } catch (err) {
       console.error(`Error creating entity header!`, err)
       throw err
     }
   }
+
+  static updateEntityName = async (entityId: string, newName: string) => {
+    try {
+      const header = await repoMgr.entHeaders.findById(entityId)
+      if (header == null) throw new Error('No entity found with id' + entityId)
+      header.name = newName
+      await header.save()
+    } catch (err) {
+      console.error(`Error in updateEntityClass for entityId ${entityId}`)
+      throw err
+    }
+  }
+
   static getEntityHeader = async (entityId: string): Promise<EntityHeader> => {
     await repoMgr.awaitInitialized()
     const res = await repoMgr.entHeaders.findById(entityId)
@@ -35,10 +41,16 @@ export class EntityHeaderService {
     throw new Error(`cannot find entity header with id ${entityId}`)
   }
 
+  static getEntityHeaderCount = async () => {
+    await repoMgr.awaitInitialized()
+    const count = await repoMgr.entHeaders.count()
+    return count
+  }
+
   static getAllEntityHeaders = async (): Promise<EntityHeader[]> => {
-    throw new NotImplementedException('getAllEntityHeaders')
-    // const res = await repoMgr.entHeaders.getAll()
-    // return res
+    await repoMgr.awaitInitialized()
+    const res = repoMgr.entHeaders.find({})
+    return res.toArray()
   }
 
   static updateEntityClass = async (entityId: string, classId: string) => {

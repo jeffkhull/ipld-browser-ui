@@ -88,9 +88,7 @@ export function EntitySlateEditor(props: EntitySlateEditorProps) {
   editor.apply = React.useCallback((op: Slate.Operation) => {
     switch (op.type) {
       case 'merge_node': {
-        console.log(`merge_node`, op)
         latestChangeType.type = 'merge_node'
-        console.log(`inserting from merge_node`)
         if (op.path.length === 1) {
           // Two merge_node calls are made.  The condition in this if is arbitrary right now...not sure how to pick the right one.
           editor.insertText('\n')
