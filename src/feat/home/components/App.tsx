@@ -26,8 +26,7 @@ export function App(props: { path: string }) {
   const decrementWaiters = useNotificationStore(notifMutators.decrementWaiters)
 
   const initSearchIndex = React.useCallback(async () => {
-    console.log(`INITING SEARCH INDEX`)
-    await SearchService.initEntityHeaderCache()
+    await SearchService.initAllCaches()
   }, [])
 
   React.useEffect(() => {

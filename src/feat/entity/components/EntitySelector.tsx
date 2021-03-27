@@ -1,17 +1,15 @@
 import { Box, Text } from '@chakra-ui/react'
-import Select from 'react-select'
 import React from 'react'
+import Select from 'react-select'
 
-import { NotImplementedException } from '../../../common/exceptions/not-implemented.exception'
-import { StringIndexable } from '../../indexes/models/StringIndexable'
-import { EntityHeader } from '../model/entity-header.model'
-import { EntityHeaderService } from '../services/entity-header.service'
 import { ReactSelectItem } from '../../../common/models/react-select-item.model'
+import { SearchService } from '../../search/services/search.service'
+import { EntityHeaderService } from '../services/entity-header.service'
 
 export interface EntitySelectorProps {
   className: string
   defaultNamespaceId: string
-  setSelectedEntityId: (val: string) => void
+  setSelectedEntityId: (entityId: string) => void
   getDdRef?: (ref: any) => void
   autofocus?: boolean
   required?: boolean
@@ -25,7 +23,7 @@ export function EntitySelector(props: EntitySelectorProps) {
       label: '[Create New]',
     },
   ])
-  const [selected, setSelected] = React.useState<ReactSelectItem | null>(null)
+  const [selectedEntity, setSelectedEntity] = React.useState<ReactSelectItem | null>(null)
   const ddRef = React.useRef<any>()
 
   React.useEffect(() => {
@@ -35,58 +33,55 @@ export function EntitySelector(props: EntitySelectorProps) {
   }, [searchText])
 
   const updateOptions = React.useCallback(async (searchString: string) => {
-    throw new NotImplementedException('Method')
-    // const matches = await IxSearch.getTextMatchesFromIndexedDb(
-    //   searchString,
-    //   IxSearch.IndexedItemType.ENTITY,
-    //   10,
-    // )
-    // if (matches.length == 0) {
-    //   setSearchResults([
-    //     {
-    //       id: 'createnew',
-    //       namespaceId: '',
-    //       value: `Create new item '${searchString}'`,
-    //       isDeprecated: 0,
-    //       classId: '',
-    //       version: 0,
-    //     },
-    //   ])
-    // } else {
-    //   setSearchResults(matches)
-    // }
+    // TODO - search entity class repo here and load results into matches before proceeding
+    const entities = SearchService.searchEntityHeaders(searchString)
+
+    const matches: ReactSelectItem[] = entities.map((entity) => {
+      return {
+        value: entity.id,
+        label: entity.value,
+      }
+    })
+
+    // const matches: ReactSelectItem[] = []
+    if (matches.length == 0) {
+      setSearchResults([
+        {
+          value: 'createnew',
+          label: `Create new entity '${searchString}'`,
+        },
+      ])
+    } else {
+      setSearchResults(matches)
+    }
   }, [])
 
   const createNewEntity = React.useCallback(
     async (name: string, namespaceId: string) => {
-      throw new NotImplementedException('Method')
-      const res = await EntityHeaderService.createEntityFromName(name, namespaceId)
-      // const ixItem: StringIndexable = {
-      //   id: res.entityId,
-      //   namespaceId: namespaceId,
-      //   value: name,
-      //   isDeprecated: 0,
-      //   classId: '',
-      //   version: 0,
-      // }
-      // props.setSelectedEntityId(res.entityId)
-      // setSearchResults([ixItem])
-      // setSelected(ixItem)
+      const newClass = await EntityHeaderService.createEntity(name, namespaceId)
+      props.setSelectedEntityId(newClass._id)
+      /**
+       * search results should be value = class id and label = class name
+       */
+      setSearchResults([{ value: newClass._id, label: newClass.name }])
+      setSelectedEntity({ value: newClass._id, label: newClass.name })
+      if (props.setSelectedEntityId) props.setSelectedEntityId(newClass._id)
     },
-    [setSelected, props.setSelectedEntityId],
+    [setSelectedEntity, props.setSelectedEntityId],
   )
 
   return (
     <Box id="entity-class-selector" className={props.className}>
       <Select
+        isSearchable
         options={searchResults}
         ref={ddRef as any}
-        value={selected || { value: '', label: 'Select an Entity...' }}
+        value={selectedEntity || { value: '', label: 'Select an Entity...' }}
         placeholder="Select an Entity..."
         emptySearchMessage="Type to search or create new"
         valueKey="Id"
         labelKey="Value"
-        onSearch={(text: string) => setSearchText(text)}
+        onInputChange={(text: string) => setSearchText(text)}
         onChange={(newValue) => {
           if (!newValue) return
           if (newValue.value === 'createnew') {
@@ -94,11 +89,11 @@ export function EntitySelector(props: EntitySelectorProps) {
             return
           }
 
-          setSelected(newValue)
+          setSelectedEntity(newValue)
           props.setSelectedEntityId(newValue.value)
         }}
       />
-      {props.required && (selected == null || selected.value === '') && (
+      {props.required && (selectedEntity == null || selectedEntity.value === '') && (
         <Text color="status-error">Required</Text>
       )}
     </Box>

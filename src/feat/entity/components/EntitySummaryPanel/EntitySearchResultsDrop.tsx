@@ -55,29 +55,22 @@ export function EntitySearchResultDrop(props: EntitySearchResultDropProps) {
       isOpen={props.visible}
       id="search-popover"
       placement="bottom-start"
-      // closeOnBlur={false}
+      // closeOnBlur={true}
       // onClose={props.onClickOutside}
+      autoFocus={false}
     >
-      {/* <PopoverTrigger>{props.children}</PopoverTrigger> */}
       <PopoverTrigger>{props.children}</PopoverTrigger>
       <PopoverContent color="white" borderColor="blue.800">
         <PopoverArrow />
         <PopoverCloseButton />
-        <PopoverBody>
-          <Box padding="15px">
+        <PopoverBody paddingLeft="0px">
+          <Box>
             {resultEntities.map((item) => {
               console.log(`item`)
               return <EntityLinkItem key={item.id} item={item} />
             })}
           </Box>
         </PopoverBody>
-        <PopoverFooter
-          border="0"
-          d="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          pb={4}
-        ></PopoverFooter>
       </PopoverContent>
     </Popover>
   )

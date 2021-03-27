@@ -136,7 +136,7 @@ export class RepoService {
   public get entRelations(): Collection<EntityRelation> {
     if (this._entRelations == null) {
       this._entRelations = this.db.collection(
-        TextileCollectionNames.UserFavorite,
+        TextileCollectionNames.EntityRelation,
       ) as Collection<EntityRelation>
     }
     return this._entRelations

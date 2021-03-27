@@ -31,20 +31,17 @@ export function EntityLinkItem(props: RecentActivityItemProps) {
   }, [props.item.id])
 
   return (
-    <Box
-      className={css`
-        margin-top: 10px;
-      `}
+    <Button
+      width="100%"
+      textAlign="left"
+      variant="ghost"
+      style={{ display: 'block', fontSize: '24px' }}
+      color="purple"
+      onClick={(e) => {
+        navigateWithCtrlSensitivity(`/item/${props.item.id}`, e)
+      }}
     >
-      <Button
-        style={{ display: 'block', fontSize: '24px', marginBottom: '5px' }}
-        color="purple"
-        onClick={(e) => {
-          navigateWithCtrlSensitivity(`/item/${props.item.id}`, e)
-        }}
-      >
-        {title}
-      </Button>
-    </Box>
+      {title}
+    </Button>
   )
 }

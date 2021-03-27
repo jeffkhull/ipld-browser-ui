@@ -34,7 +34,7 @@ export function EntitySummaryPanel(props: EntitySummaryPanelProps) {
   const createNewEntity = React.useCallback(
     async (name: string) => {
       setNewEntNameInputOpen(false)
-      const newEntity = await EntityHeaderService.createEntityFromName(name, currentSpace?._id)
+      const newEntity = await EntityHeaderService.createEntity(name, currentSpace?._id)
       void Reach.navigate(`/item/${newEntity._id}`)
     },
     [user.defaultNamespaceId],
@@ -130,15 +130,16 @@ export function EntitySummaryPanel(props: EntitySummaryPanelProps) {
                   size="lg"
                   placeholder="Search items..."
                   value={searchFilter.nameSearchTerm || ''}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    if (!searchDropVisible) setSearchDropVisible(true)
                     setSearchFilter({ ...searchFilter, nameSearchTerm: e.target.value })
-                  }
+                  }}
                   //   ref={searchDropRef as any}
                   onKeyUp={(e) => {
                     if (e.key === 'Escape') setSearchFilter({ ...searchFilter, nameSearchTerm: '' })
                   }}
-                  onFocus={() => setSearchDropVisible(true)}
-                  // onBlur={() => setSearchDropVisible(false)}
+                  // onFocus={() => setSearchDropVisible(true)}
+                  onBlur={() => setSearchDropVisible(false)}
                 />
               </Box>
             </EntitySearchResultDrop>

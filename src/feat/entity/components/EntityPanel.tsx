@@ -137,10 +137,7 @@ export function EntityPanel(props: {
 
   const createNewEntity = React.useCallback(
     async (name: string, callback: (newEntityId: string) => void) => {
-      const newEntity = await EntityHeaderService.createEntityFromName(
-        name,
-        user.defaultNamespaceId,
-      )
+      const newEntity = await EntityHeaderService.createEntity(name, user.defaultNamespaceId)
       entityStore.setId(newEntity._id)
       callback(newEntity._id)
       setEntityName(name)

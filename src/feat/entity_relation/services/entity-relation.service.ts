@@ -1,5 +1,7 @@
 import { NotImplementedException } from '../../../common/exceptions/not-implemented.exception'
 import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
+import { EntityHeaderService } from '../../entity/services/entity-header.service'
+import { RelationService } from '../../relation/services/relation.service'
 import { EntityRelation, EntityRelationResource } from '../model/entity-relation.model'
 import {
   EntityRelationOneSide,
@@ -11,16 +13,22 @@ export class EntityRelationService {
     await repoMgr.awaitInitialized()
     const qry = repoMgr.entRelations.find({ targetId: { $eq: eid } })
     const relations = await qry.toArray()
-    const mapped = relations.map(
-      (rel) =>
-        new EntityRelationOneSideResource(
+
+    const mapped = Promise.all(
+      relations.map(async (rel) => {
+        const target = await EntityHeaderService.getEntityHeader(rel.targetId)
+        const relation = await RelationService.getRelation(rel.relationId)
+
+        return new EntityRelationOneSideResource(
           rel._id,
-          '[look up target name]',
+          target.name,
           rel.targetId,
           rel.relationId,
-          '[look up relation name]',
-        ),
+          relation.name,
+        )
+      }),
     )
+
     return mapped
   }
 
@@ -28,16 +36,24 @@ export class EntityRelationService {
     await repoMgr.awaitInitialized()
     const qry = repoMgr.entRelations.find({ sourceId: { $eq: eid } })
     const relations = await qry.toArray()
-    const mapped = relations.map(
-      (rel) =>
-        new EntityRelationOneSideResource(
+
+    const mapped = Promise.all(
+      relations.map(async (rel) => {
+        console.log(`target id is ${rel.targetId}`)
+
+        const target = await EntityHeaderService.getEntityHeader(rel.targetId)
+        const relation = await RelationService.getRelation(rel.relationId)
+
+        return new EntityRelationOneSideResource(
           rel._id,
-          '[look up target name]',
+          target.name,
           rel.targetId,
           rel.relationId,
-          '[look up relation name]',
-        ),
+          relation.name,
+        )
+      }),
     )
+
     return mapped
   }
 
@@ -53,10 +69,15 @@ export class EntityRelationService {
     targetId: string,
     relationId: string,
   ): Promise<EntityRelation> => {
-    const instance = repoMgr.entRelations.create(
-      new EntityRelationResource(relationId, sourceId, targetId),
-    )
-    await instance.save()
-    return instance
+    try {
+      const instance = repoMgr.entRelations.create(
+        new EntityRelationResource(relationId, sourceId, targetId),
+      )
+      await instance.save()
+      return instance
+    } catch (err) {
+      console.error(`error writing new entity relation`, err)
+      throw err
+    }
   }
 }

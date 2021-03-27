@@ -5,6 +5,7 @@ import Select from 'react-select'
 import { EntityClassResource } from '../models/entity-class.model'
 import { EntityClassService } from '../services/entity-class.service'
 import { ReactSelectItem } from '../../../common/models/react-select-item.model'
+import { SearchService } from '../../search/services/search.service'
 
 export interface ClassSelectorProps {
   cssClassName: string
@@ -36,7 +37,16 @@ export function ClassSelector(props: ClassSelectorProps) {
   const updateOptions = React.useCallback(
     async (searchString: string) => {
       // TODO - search entity class repo here and load results into matches before proceeding
-      const matches: ReactSelectItem[] = []
+      const classes = SearchService.searchEntityClasses(searchString)
+
+      const matches: ReactSelectItem[] = classes.map((entClass) => {
+        return {
+          value: entClass._id,
+          label: entClass.name,
+        }
+      })
+
+      // const matches: ReactSelectItem[] = []
       if (matches.length == 0) {
         setSearchResults([
           {
@@ -55,6 +65,9 @@ export function ClassSelector(props: ClassSelectorProps) {
     async (name: string, namespaceId: string) => {
       const newClass = await EntityClassService.createEntityClass(name, namespaceId)
       props.setSelectedClassId(newClass._id)
+      /**
+       * search results should be value = class id and label = class name
+       */
       setSearchResults([{ value: newClass._id, label: newClass.name }])
       setSelectedClass({ value: newClass._id, label: newClass.name })
       if (props.setSelectedClassName) props.setSelectedClassName(newClass.name)

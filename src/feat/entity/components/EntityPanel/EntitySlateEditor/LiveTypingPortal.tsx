@@ -46,7 +46,7 @@ export function LiveTypingPortal(props: LiveTypingPortalProps) {
       targetSelection: Slate.Location,
     ) => {
       notifStore.incrementWaiters()
-      const newEntity = await EntityHeaderService.createEntityFromName(name, namespaceId)
+      const newEntity = await EntityHeaderService.createEntity(name, namespaceId)
 
       const item: IndexedItem = {
         id: newEntity._id,

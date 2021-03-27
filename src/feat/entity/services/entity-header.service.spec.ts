@@ -17,7 +17,7 @@ describe('should do thing', () => {
   })
 
   it('should write and retrieve entity header', async () => {
-    const entity = await EntityHeaderService.createEntityFromName('name', 'namespace')
+    const entity = await EntityHeaderService.createEntity('name', 'namespace')
     expect(entity._id).not.undefined
     const retrieve = await EntityHeaderService.getEntityHeader(entity._id)
     expect(retrieve).not.undefined

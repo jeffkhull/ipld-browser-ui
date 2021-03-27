@@ -1,5 +1,3 @@
-import { DBCoreRangeType } from 'dexie'
-import { NotImplementedException } from '../../../common/exceptions/not-implemented.exception'
 import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
 import { EntityHeader, EntityHeaderResource } from '../model/entity-header.model'
 
@@ -7,10 +5,7 @@ export class EntityHeaderService {
   /**
    * @returns {string} the ID of the newly created entity
    */
-  static createEntityFromName = async (
-    name: string,
-    namespaceId = 'default',
-  ): Promise<EntityHeader> => {
+  static createEntity = async (name: string, namespaceId = 'default'): Promise<EntityHeader> => {
     try {
       const instance = repoMgr.entHeaders.create(new EntityHeaderResource(namespaceId, name))
       await instance.save()

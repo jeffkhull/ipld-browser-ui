@@ -1,5 +1,6 @@
 import { NotImplementedException } from '../../../common/exceptions/not-implemented.exception'
 import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
+import { EntityHeaderService } from '../../entity/services/entity-header.service'
 import { UserFavorite, UserFavoriteResource } from '../models/user-favorite.model'
 import { UserFavoriteReadable } from '../models/UserFavoriteReadable'
 import { UserFavoriteType } from '../models/UserFavoriteType'
@@ -48,16 +49,15 @@ export class UserFavoritesService {
   }
 
   static getAllReadable = async (): Promise<UserFavoriteReadable[]> => {
-    throw new NotImplementedException('UserFavoritesService.getAllReadable')
-    // const allFavs = await UserFavoritesService.getAll()
-    // const readable: UserFavoriteReadable[] = []
-    // for (let i = 0; i < allFavs.length; i++) {
-    //   const name = await IndexService.getEntityName(allFavs[i].targetId)
-    //   readable.push({
-    //     ...allFavs[i],
-    //     name: name,
-    //   })
-    // }
-    // return readable
+    const allFavs = await UserFavoritesService.getAll()
+    const readable: UserFavoriteReadable[] = []
+    for (let i = 0; i < allFavs.length; i++) {
+      const entity = await EntityHeaderService.getEntityHeader(allFavs[i].targetId)
+      readable.push({
+        ...allFavs[i],
+        name: entity.name,
+      })
+    }
+    return readable
   }
 }

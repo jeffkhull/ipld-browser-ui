@@ -55,7 +55,7 @@ export function OutboundRelationCreateModal(props: OutboundRelationCreateModalPr
       <GrFormNextLink className={iconClass} />
       <RelationSelector
         autofocus
-        className={ddClass}
+        cssClassName={ddClass}
         setSelectedRelationId={(value: string) => {
           setRelationId(value)
           if (targetSelectRef.current) targetSelectRef.current.focus()

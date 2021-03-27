@@ -1,13 +1,14 @@
 import { Box, Text } from '@chakra-ui/react'
+import { match } from 'assert'
 import React from 'react'
 import Select from 'react-select'
 
-import { NotImplementedException } from '../../../common/exceptions/not-implemented.exception'
 import { ReactSelectItem } from '../../../common/models/react-select-item.model'
+import { SearchService } from '../../search/services/search.service'
 import { RelationService } from '../services/relation.service'
 
 export interface RelationSelectorProps {
-  className: string
+  cssClassName: string
   setSelectedRelationId: (val: string) => void
   defaultNamespaceId: string
   autofocus: boolean
@@ -31,53 +32,46 @@ export function RelationSelector(props: RelationSelectorProps) {
   }, [])
 
   const updateOptions = React.useCallback(async (searchString: string) => {
-    throw new NotImplementedException('Method')
-    // const matches = await IxSearch.getTextMatchesFromIndexedDb(
-    //   searchString,
-    //   IxSearch.IndexedItemType.RELATION,
-    //   10,
-    // )
+    // TODO - search entity class repo here and load results into matches before proceeding
+    const relations = SearchService.searchRelations(searchString)
 
-    // if (matches.length == 0) {
-    //   setSearchResults([
-    //     {
-    //       id: 'createnew',
-    //       namespaceId: '',
-    //       value: `Create new relation '${searchString}'`,
-    //       isDeprecated: 0,
-    //       classId: '',
-    //       version: 0,
-    //     },
-    //   ])
-    // } else {
-    //   setSearchResults(matches)
-    // }
+    const matches: ReactSelectItem[] = relations.map((relation) => {
+      return {
+        value: relation._id,
+        label: relation.name,
+      }
+    })
+
+    if (matches.length == 0) {
+      setSearchResults([
+        {
+          value: 'createnew',
+          label: `Create new relation '${searchString}'`,
+        },
+      ])
+    } else {
+      setSearchResults(matches)
+    }
   }, [])
 
-  const createwNewRelation = React.useCallback(
+  const createNewRelation = React.useCallback(
     async (name: string, namespaceId: string) => {
-      await RelationService.createRelation(name, namespaceId)
-      // const res = await relationApi.createRelation({
-      //   relation: { id: undefined, name: name, namespace_id: namespaceId },
-      // } as any)
-      // const ixItem: StringIndexable = {
-      //   id: res.id,
-      //   namespaceId: namespaceId,
-      //   value: name,
-      //   isDeprecated: 0,
-      //   classId: '',
-      //   version: 0,
-      // }
-      // props.setSelectedRelationId(res.id)
-      // setSearchResults([ixItem])
-      // setSelected(ixItem)
+      const newClass = await RelationService.createRelation(name, namespaceId)
+      props.setSelectedRelationId(newClass._id)
+      /**
+       * search results should be value = class id and label = class name
+       */
+      setSearchResults([{ value: newClass._id, label: newClass.name }])
+      setSelected({ value: newClass._id, label: newClass.name })
+      if (props.setSelectedRelationId) props.setSelectedRelationId(newClass.name)
     },
     [setSelected, props.setSelectedRelationId],
   )
 
   return (
-    <Box id="entity-class-selector" className={props.className}>
+    <Box id="relation-selector" className={props.cssClassName}>
       <Select
+        isSearchable
         ref={ddRef as any}
         options={searchResults}
         value={selected || { value: '', label: 'Select a relation...' }}
@@ -85,12 +79,14 @@ export function RelationSelector(props: RelationSelectorProps) {
         emptySearchMessage="Type to search or create new"
         valueKey="Id"
         labelKey="Value"
-        onSearch={(text: string) => setSearchText(text)}
+        onInputChange={(text: string) => {
+          setSearchText(text)
+        }}
         onChange={(newValue) => {
           if (newValue == null) return
           if (newValue.value === 'createnew') {
             console.log(`default namespace id is: `, props.defaultNamespaceId)
-            void createwNewRelation(searchText, props.defaultNamespaceId)
+            void createNewRelation(searchText, props.defaultNamespaceId)
             return
           }
 

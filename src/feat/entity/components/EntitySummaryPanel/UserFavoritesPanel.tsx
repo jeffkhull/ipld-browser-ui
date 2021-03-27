@@ -11,9 +11,7 @@ export function UserFavoritesPanel() {
   const [userFavorites, setUserFavorites] = React.useState<UserFavoriteReadable[]>([])
 
   useEffect(() => {
-    if (user._id != '') {
-      void hydrateFavorites()
-    }
+    void hydrateFavorites()
   }, [user._id])
 
   const hydrateFavorites = React.useCallback(async () => {
