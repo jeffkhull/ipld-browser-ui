@@ -16,14 +16,15 @@ export class EntityRelationService {
 
     const mapped = Promise.all(
       relations.map(async (rel) => {
-        const target = await EntityHeaderService.getEntityHeader(rel.targetId)
+        // 'target' for inbound relation is actually the source
+        const target = await EntityHeaderService.getEntityHeader(rel.sourceId)
         const relation = await RelationService.getRelation(rel.relationId)
 
         return new EntityRelationOneSideResource(
           rel._id,
           target.name,
-          rel.targetId,
-          rel.relationId,
+          target._id,
+          relation._id,
           relation.name,
         )
       }),
@@ -47,8 +48,8 @@ export class EntityRelationService {
         return new EntityRelationOneSideResource(
           rel._id,
           target.name,
-          rel.targetId,
-          rel.relationId,
+          target._id,
+          relation._id,
           relation.name,
         )
       }),
@@ -58,7 +59,7 @@ export class EntityRelationService {
   }
 
   static deleteEntityRelation = async (id: string) => {
-    throw new NotImplementedException('EntityRelationService.deleteEntityRelation')
+    await repoMgr.entRelations.delete(id)
   }
 
   /**
@@ -69,6 +70,8 @@ export class EntityRelationService {
     targetId: string,
     relationId: string,
   ): Promise<EntityRelation> => {
+    console.log(`creating entity relation with relation id `, relationId)
+    console.log(`target id `, targetId)
     try {
       const instance = repoMgr.entRelations.create(
         new EntityRelationResource(relationId, sourceId, targetId),

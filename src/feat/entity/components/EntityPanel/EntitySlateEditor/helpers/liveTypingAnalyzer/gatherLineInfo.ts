@@ -3,7 +3,7 @@ import * as model from '../../model'
 import { getCurrentNodeText } from './getCurrentNodeText'
 import * as Slate from 'slate'
 
-export function gatherLineInfo(editor: any, cursorPoint: Point, curData: model.CursorPostionData) {
+export function gatherLineInfo(editor: any, cursorPoint: Point, curData: model.CursorPositionData) {
   /**
    * Line before cursor
    */

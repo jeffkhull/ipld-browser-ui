@@ -214,6 +214,7 @@ export function OutboundRelationDisplay(props: OutboundRelationDisplayProps) {
                           key={er.targetId + 'btn'}
                           onClick={(e) => {
                             e.stopPropagation()
+                            console.log(`navigating to target `, er.targetId)
                             navigateWithCtrlSensitivity(`/item/${er.targetId}`, e)
                           }}
                         >

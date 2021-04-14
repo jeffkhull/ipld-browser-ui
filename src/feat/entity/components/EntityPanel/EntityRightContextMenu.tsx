@@ -15,21 +15,6 @@ export interface EntityRightContextMenuProps {
 }
 
 export function EntityRightContextItems(props: EntityRightContextMenuProps) {
-  const [inboundRelations, setInboundRelations] = React.useState<EntityRelationOneSide[]>([])
-
-  React.useEffect(() => {
-    if (props.entityId == null || props.entityId === '') {
-      return
-    }
-    void hydrateInboundRel(props.entityId)
-  }, [props.entityId])
-
-  const hydrateInboundRel = React.useCallback(async (eid: string) => {
-    // const inboundRel = await serverApi.getInboundForEntity(entityId)
-    const inboundRel = await EntityRelationService.getInboundRelationsReadable(eid)
-    setInboundRelations(inboundRel)
-  }, [])
-
   return (
     <>
       <Heading

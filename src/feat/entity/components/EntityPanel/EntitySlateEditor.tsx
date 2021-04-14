@@ -9,14 +9,14 @@ import * as SlateReact from 'slate-react'
 import * as subComponents from './EntitySlateEditor/components'
 import * as helpers from './EntitySlateEditor/helpers'
 import { LiveTypingPortal } from './EntitySlateEditor/LiveTypingPortal'
-import * as model from './EntitySlateEditor/model'
 import { toggleMark } from './EntitySlateEditor/Toolbar/helpers'
 import * as _ from 'lodash'
 import { IndexedItemType } from '../../../search/IxSearchModel/IndexedItemType'
 import { IndexedItem } from '../../../search/IxSearchModel/IndexedItem'
-import { NotImplementedException } from '../../../../common/exceptions/not-implemented.exception'
 import { entityStoreSelectors, useEntityStore } from '../../stores/entity.store'
 import { latestChangeType } from '../../singletons'
+import { SearchService } from '../../../search/services/search.service'
+import { CursorPositionData } from './EntitySlateEditor/model/CursorPositionData'
 
 const HotkeyMap = new Map<string, string>()
 HotkeyMap.set('mod+b', 'bold')
@@ -31,7 +31,7 @@ export interface EntitySlateEditorProps {
   triggerOutboundRelationCreate: () => void
 }
 
-export const curDataContainer: { curData: model.CursorPostionData } = {
+export const curDataContainer: { curData: CursorPositionData } = {
   curData: {
     analysisRanges: {},
     searchType: IndexedItemType.ENTITY,
@@ -45,7 +45,7 @@ export const curDataContainer: { curData: model.CursorPostionData } = {
   },
 }
 
-function setCurData(newCurData: model.CursorPostionData) {
+function setCurData(newCurData: CursorPositionData) {
   curDataContainer.curData = newCurData
 }
 
@@ -72,26 +72,45 @@ export function EntitySlateEditor(props: EntitySlateEditorProps) {
   //   [props.setEditorContent],
   // )
 
+  const refreshEntityDropdown = React.useCallback(async (searchString) => {
+    const entities = SearchService.searchEntityHeaders(searchString)
+    const indexedItems: IndexedItem[] = entities.map((entity) => {
+      return {
+        id: entity.id,
+        name: entity.value,
+        type: IndexedItemType.ENTITY,
+        priority: 0,
+      }
+    })
+    setIndexedItems(indexedItems)
+  }, [])
+
   React.useEffect(() => {
-    // throw new NotImplementedException('Method')
-    // void IxSearch.getIndexedItems(
-    //   { id: entityId || '', name: entityName },
-    //   inlineSearchString || '',
-    //   curData.searchType,
-    //   (items: IxSearch.IndexedItem[]) => {
-    //     setIndexedItems(items)
-    //   },
-    //   10,
-    // )
+    void refreshEntityDropdown(inlineSearchString)
   }, [entityName, entityId, inlineSearchString, curData.searchType])
 
   editor.apply = React.useCallback((op: Slate.Operation) => {
+    // console.log(`op type: `, op.type)
+    // console.log(`char info`, curData.charInfo)
+
     switch (op.type) {
       case 'merge_node': {
-        latestChangeType.type = 'merge_node'
-        if (op.path.length === 1) {
-          // Two merge_node calls are made.  The condition in this if is arbitrary right now...not sure how to pick the right one.
+        // latestChangeType.type = 'merge_node'
+        // if (op.path.length === 1) {
+        //   // Two merge_node calls are made.  The condition in this if is arbitrary right now...not sure how to pick the right one.
+        //   editor.insertText('\n')
+        // }
+        apply(op)
+        break
+      }
+      case 'split_node': {
+        if (
+          curData.charInfo.charBeforeCursor === '\n' &&
+          curData.charInfo.charAfterCursor === '' &&
+          latestChangeType.type !== 'split_node'
+        ) {
           editor.insertText('\n')
+          console.log(`current data`, props.slateEditorContent)
         }
         apply(op)
         break
@@ -100,6 +119,8 @@ export function EntitySlateEditor(props: EntitySlateEditorProps) {
         apply(op)
         break
     }
+
+    latestChangeType.type = op.type
   }, [])
 
   const renderElement = React.useCallback((props) => <subComponents.EditorElement {...props} />, [])
@@ -110,6 +131,7 @@ export function EntitySlateEditor(props: EntitySlateEditorProps) {
       // Process hotkey
       HotkeyMap.forEach((value, key) => {
         if (isHotkey(key, event as any)) {
+          console.log(`is hotkey`)
           event.preventDefault()
           toggleMark(editor, value)
         }
@@ -182,7 +204,6 @@ export function EntitySlateEditor(props: EntitySlateEditorProps) {
       spellCheck="false"
     >
       <SlateReact.Slate
-        id="slate-editor"
         editor={editor}
         value={props.slateEditorContent}
         onChange={(newValue) => {
@@ -195,7 +216,10 @@ export function EntitySlateEditor(props: EntitySlateEditorProps) {
             setCurData,
           )
 
-          //   console.log(`new content `, newValue);
+          if (JSON.stringify(newValue) !== JSON.stringify(props.slateEditorContent)) {
+            // console.log(`new content `, newValue)
+            // console.log(`cur data`, curData)
+          }
           props.setEditorContent(newValue as SlateNode[])
         }}
       >

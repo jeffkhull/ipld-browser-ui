@@ -57,6 +57,7 @@ export function OutboundRelationCreateModal(props: OutboundRelationCreateModalPr
         autofocus
         cssClassName={ddClass}
         setSelectedRelationId={(value: string) => {
+          console.log(`setting relation id `, value)
           setRelationId(value)
           if (targetSelectRef.current) targetSelectRef.current.focus()
         }}

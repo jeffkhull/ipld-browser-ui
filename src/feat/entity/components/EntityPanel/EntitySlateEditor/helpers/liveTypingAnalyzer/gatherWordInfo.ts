@@ -4,7 +4,7 @@ import * as Slate from 'slate'
 
 import * as model from '../../model'
 
-export function gatherWordInfo(editor: any, cursorPoint: Point, curData: model.CursorPostionData) {
+export function gatherWordInfo(editor: any, cursorPoint: Point, curData: model.CursorPositionData) {
   /**
    * Word before cursor
    */

@@ -1,7 +1,7 @@
 import { IndexedItemType } from '../../../../../../search/IxSearchModel/IndexedItemType'
 import * as model from '../../model'
 
-export function setSearchType(curData: model.CursorPostionData) {
+export function setSearchType(curData: model.CursorPositionData) {
   /**
    * Set Search type
    */

@@ -5,7 +5,7 @@ import * as model from '../../model'
 export function gatherPreceedingNodeInfo(
   editor: any,
   cursorPoint: Point,
-  curData: model.CursorPostionData,
+  curData: model.CursorPositionData,
 ) {
   curData.nodeInfo.nodeDepth = cursorPoint.path.length
   /**

@@ -13,9 +13,9 @@ export function isBlockActive(editor: any, format: any) {
   }
 }
 
-export function isMarkActive(editor: any, format: any) {
+export function isMarkActive(editor: any, format: string) {
   try {
-    const marks = Slate.Editor.marks(editor)
+    const marks = Slate.Editor.marks(editor) as { [index: string]: any }
     return marks ? marks[format] === true : false
   } catch (error) {
     return false

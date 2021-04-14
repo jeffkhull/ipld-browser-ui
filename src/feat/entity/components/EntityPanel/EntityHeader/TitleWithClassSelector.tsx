@@ -70,11 +70,9 @@ export function TitleWithClassSelector(props: TitleWithClassSelectorProps) {
           <ClassSelector
             cssClassName={css``}
             setSelectedClassId={(val: string) => {
-              //   console.log(`sel class id is now `, val);
               setSelectedClassId(val)
             }}
             setSelectedClassName={(val: string) => {
-              console.log(`sel class name is `, val)
               setSelectedClassName(val)
             }}
             defaultNamespaceId={user.defaultNamespaceId}
