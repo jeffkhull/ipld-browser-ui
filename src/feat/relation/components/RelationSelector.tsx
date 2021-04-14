@@ -57,13 +57,13 @@ export function RelationSelector(props: RelationSelectorProps) {
   const createNewRelation = React.useCallback(
     async (name: string, namespaceId: string) => {
       const newClass = await RelationService.createRelation(name, namespaceId)
+      console.log(`setting selected relation id `, newClass._id)
       props.setSelectedRelationId(newClass._id)
       /**
        * search results should be value = class id and label = class name
        */
       setSearchResults([{ value: newClass._id, label: newClass.name }])
       setSelected({ value: newClass._id, label: newClass.name })
-      if (props.setSelectedRelationId) props.setSelectedRelationId(newClass.name)
     },
     [setSelected, props.setSelectedRelationId],
   )
@@ -82,16 +82,17 @@ export function RelationSelector(props: RelationSelectorProps) {
         onInputChange={(text: string) => {
           setSearchText(text)
         }}
-        onChange={(newValue) => {
-          if (newValue == null) return
-          if (newValue.value === 'createnew') {
+        onChange={(selected) => {
+          console.log(`newvalue (should be id) is`, selected)
+          if (selected == null) return
+          if (selected.value === 'createnew') {
             console.log(`default namespace id is: `, props.defaultNamespaceId)
             void createNewRelation(searchText, props.defaultNamespaceId)
             return
           }
 
-          setSelected(newValue)
-          props.setSelectedRelationId(newValue.value)
+          setSelected(selected)
+          props.setSelectedRelationId(selected.value)
         }}
       />
       {props.required && (selected == null || selected.value === '') && (

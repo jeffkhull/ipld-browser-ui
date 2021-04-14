@@ -17,9 +17,9 @@ export function analyzeLiveTypingOnChange(
   setLtBoxTarget: (value: any) => void,
   setSearchString: (value: React.SetStateAction<string | null>) => void,
   setLtSelectionIndex: (value: React.SetStateAction<number>) => void,
-  curInfo: model.CursorPostionData,
+  curInfo: model.CursorPositionData,
   //   setCurData: (value: React.SetStateAction<model.CursorPostionData>) => void
-  setCurData: (value: model.CursorPostionData) => void,
+  setCurData: (value: model.CursorPositionData) => void,
 ) {
   //   const curData: model.CursorPostionData = {};
   const curData = { ...curInfo }

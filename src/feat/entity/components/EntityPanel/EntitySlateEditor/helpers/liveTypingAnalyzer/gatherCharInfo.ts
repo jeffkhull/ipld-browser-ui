@@ -3,7 +3,7 @@ import * as model from '../../model'
 import { getCurrentNodeText } from './getCurrentNodeText'
 import * as Slate from 'slate'
 
-export function gatherCharInfo(editor: any, cursorPoint: Point, curData: model.CursorPostionData) {
+export function gatherCharInfo(editor: any, cursorPoint: Point, curData: model.CursorPositionData) {
   /**
    * Char before cursor range (for target anchoring)
    */

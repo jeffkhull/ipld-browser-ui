@@ -10,5 +10,5 @@ export interface LiveTypingPortalProps {
   inlineSearchString: string
   searchType: IndexedItemType
   setLtBoxTarget: React.Dispatch<any>
-  curData: model.CursorPostionData
+  curData: model.CursorPositionData
 }

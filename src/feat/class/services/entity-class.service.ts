@@ -7,7 +7,6 @@ export class EntityClassService {
     await instance.save()
     return instance
   }
-
   static getEntityClass = async (id: string) => {
     const entClass = repoMgr.classes.findOne({ _id: { $eq: id } })
     return (await entClass) || blankEntityClass

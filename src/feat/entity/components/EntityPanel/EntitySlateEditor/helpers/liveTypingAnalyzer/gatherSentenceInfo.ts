@@ -4,7 +4,7 @@ import * as model from '../../model'
 export function gatherSentenceInfo(
   editor: any,
   cursorPoint: Point,
-  curData: model.CursorPostionData,
+  curData: model.CursorPositionData,
 ) {
   /**
    * Current Sentence

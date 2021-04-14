@@ -45,7 +45,7 @@ export interface CharInfo {
   cursorIsPreceededByPunctuation?: boolean
 }
 
-export interface CursorPostionData {
+export interface CursorPositionData {
   analysisRanges: AnalysisRanges
   searchType: IndexedItemType
   charInfo: CharInfo

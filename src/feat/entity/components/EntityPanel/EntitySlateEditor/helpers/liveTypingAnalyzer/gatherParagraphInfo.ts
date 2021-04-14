@@ -5,7 +5,7 @@ import { isFirstNodeInParagraph } from './isFirstNodeInParagraph'
 export function gatherParagraphInfo(
   editor: any,
   cursorPoint: Point,
-  curData: model.CursorPostionData,
+  curData: model.CursorPositionData,
 ) {
   /**
    * Node position in paragraph

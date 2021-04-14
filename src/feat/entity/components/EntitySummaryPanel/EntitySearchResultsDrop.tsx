@@ -41,13 +41,8 @@ export function EntitySearchResultDrop(props: EntitySearchResultDropProps) {
   }, [])
 
   React.useEffect(() => {
-    console.log(`CALLIGN WITH FILTER`, props.searchFilter)
     void refreshResultEntities(props.searchFilter)
   }, [props.searchFilter])
-
-  React.useEffect(() => {
-    console.log(`res entity length`, resultEntities.length)
-  }, [resultEntities])
 
   // New chakra component
   return (
@@ -66,7 +61,6 @@ export function EntitySearchResultDrop(props: EntitySearchResultDropProps) {
         <PopoverBody paddingLeft="0px">
           <Box>
             {resultEntities.map((item) => {
-              console.log(`item`)
               return <EntityLinkItem key={item.id} item={item} />
             })}
           </Box>

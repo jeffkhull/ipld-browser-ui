@@ -3,22 +3,21 @@ import * as Reach from '@reach/router'
 import { css } from 'emotion'
 import React, { useEffect, useState } from 'react'
 import { Element as SlateNode } from 'slate'
-import * as entityDal from '../dal/entityDal'
+
+import { notifMutators, useNotificationStore } from '../../notifications/stores/NotificationStore'
+import { UserFavorite } from '../../preferences/models/user-favorite.model'
+import { ErrorBoundary } from '../../telemetry/components/ErrorBoundary'
+import { userStoreSelectors, useUserStore } from '../../user/stores/UserStore'
 import { EntityHeader } from '../model/entity-header.model'
 import { EntityDocService } from '../services/entity-doc.service'
 import { EntityHeaderService } from '../services/entity-header.service'
-import { clearDraftDocNodes, entityMemoryState } from '../stores/entity-memory-state.model'
+import { entityMemoryState } from '../stores/entity-memory-state.model'
+import { entityStoreMutators, entityStoreSelectors, useEntityStore } from '../stores/entity.store'
 import { EntityHeaderComponent } from './EntityPanel/EntityHeader'
 import * as serverActions from './EntityPanel/entityPanelActions'
 import { EntityRightContextItems } from './EntityPanel/EntityRightContextMenu'
 import { EntitySlateEditor } from './EntityPanel/EntitySlateEditor'
 import { OutboundRelationCreateModal } from './EntityPanel/OutboundRelationCreateModal'
-import { entityStoreMutators, entityStoreSelectors, useEntityStore } from '../stores/entity.store'
-import { userStoreSelectors, useUserStore } from '../../user/stores/UserStore'
-import { UserFavorite } from '../../preferences/models/user-favorite.model'
-import { notifMutators, useNotificationStore } from '../../notifications/stores/NotificationStore'
-import { ErrorBoundary } from '../../telemetry/components/ErrorBoundary'
-import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
 
 export const initialEditorValue: SlateNode[] = [
   {
@@ -32,11 +31,6 @@ export function EntityPanel(props: {
   style?: React.CSSProperties
   entityId?: string
 }) {
-  //   const [entityClass, setEntityClass] = EntityStore.useEntityClass();
-  //   const [entityId, setEntityId] = EntityStore.useEntityId();
-  //   const [entityNamespaceId, setEntityNamespaceId] = EntityStore.useEntityNamespaceId();
-  //   const [entityIsDeprecated, setEntityIsDeprecated] = EntityStore.useEntityIsDeprecated();
-
   const entityStore = useEntityStore(entityStoreSelectors.all)
 
   //   const [entityClasses, setEntityClasses] = EntityStore.useEntityClasses();

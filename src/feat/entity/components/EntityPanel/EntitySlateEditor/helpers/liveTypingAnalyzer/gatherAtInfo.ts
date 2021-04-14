@@ -3,7 +3,7 @@ import * as model from '../../model'
 import { getCurrentNodeText } from './getCurrentNodeText'
 import * as Slate from 'slate'
 
-export function gatherAtInfo(editor: any, cursorPoint: Point, curData: model.CursorPostionData) {
+export function gatherAtInfo(editor: any, cursorPoint: Point, curData: model.CursorPositionData) {
   const currSentenceAtMatch = curData.sentenceInfo.currentSentenceText?.match(
     model.regexMatchers.matchAtSymbol,
   )

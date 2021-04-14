@@ -50,7 +50,11 @@ export function SingleTextInputModal(props: SingleTextInputModalProps) {
         props.cancelCallback()
       }}
     >
-      <ModalOverlay>
+      <ModalOverlay
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' && event.ctrlKey) props.okCallback(textVal)
+        }}
+      >
         <ModalContent>
           <ModalHeader>{props.heading}</ModalHeader>
           <ModalCloseButton />

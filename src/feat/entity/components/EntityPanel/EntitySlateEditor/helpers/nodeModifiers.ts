@@ -1,14 +1,16 @@
 import { Editor, Range, Transforms } from 'slate'
 import * as SlateReact from 'slate-react'
+import { EntityElement, LinkElement } from '../../../../../../common/slate_config/custom-types'
 
 import { isUrl } from '../../../../../../common/util/url'
 import { IndexedItem } from '../../../../../search/IxSearchModel/IndexedItem'
 import { curDataContainer } from '../../EntitySlateEditor'
 import * as model from '../model'
+import { NodeType } from '../model/NodeType'
 
 export function insertSubjEntityLink(editor: any, indexedItem: IndexedItem) {
   const { selection } = editor
-  const entityLink = {
+  const entityLink: EntityElement = {
     type: model.NodeType.entity,
     indexedItem: indexedItem,
     children: [{ text: indexedItem.name }],
@@ -75,7 +77,7 @@ export function withModifiers(editor: Editor & SlateReact.ReactEditor) {
 
 // Links
 function unwrapLink(editor: any) {
-  Transforms.unwrapNodes(editor, { match: (n) => n.type === model.NodeType.link })
+  Transforms.unwrapNodes(editor, { match: (n) => n.type === 'link' })
 }
 
 function wrapLink(editor: any, url: any) {
@@ -85,8 +87,8 @@ function wrapLink(editor: any, url: any) {
 
   const { selection } = editor
   const isCollapsed = selection && Range.isCollapsed(selection)
-  const link = {
-    type: model.NodeType.link,
+  const link: LinkElement = {
+    type: 'link',
     url,
     children: isCollapsed ? [{ text: url }] : [],
   }
