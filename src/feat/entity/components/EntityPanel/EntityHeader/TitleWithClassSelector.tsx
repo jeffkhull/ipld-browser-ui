@@ -27,7 +27,6 @@ export function TitleWithClassSelector(props: TitleWithClassSelectorProps) {
   const [selectedClassId, setSelectedClassId] = React.useState('')
   const [selectedClassName, setSelectedClassName] = React.useState('')
   const user = useUserStore(userStoreSelectors.user)
-  const setUser = useUserStore(userStoreMutators.setUser)
 
   const title = React.useMemo(() => {
     if (!props.isDeprecated) return props.title
@@ -37,12 +36,11 @@ export function TitleWithClassSelector(props: TitleWithClassSelectorProps) {
 
   const updateEntityClass = React.useCallback(
     async (entityId: string, classId: string) => {
-      // await updateEntityClass(entityId, classId)
       await EntityHeaderService.updateEntityClass(entityId, classId)
       setIsEditingClass(false)
       entityStore.setClass({
         ...entityStore.ENTITY_CLASS,
-        value: selectedClassName,
+        name: selectedClassName,
         id: classId,
       } as any)
     },
@@ -109,22 +107,13 @@ export function TitleWithClassSelector(props: TitleWithClassSelectorProps) {
         >
           {entityStore.ENTITY_CLASS?.name || 'No type assigned'}
         </Text>
-        {/* {props.isEditing && ( */}
         <Button
           size="small"
           leftIcon={<Icons.Edit size="18px" />}
           variant="ghost"
           onClick={() => setIsEditingClass(true)}
         ></Button>
-        {/* )} */}
       </Box>
-      {/* <EntityClassSelector
-        cssClassName={css`
-          height: 30px;
-          padding-left: 11px;
-          width: 400px;
-        `}
-      /> */}
     </Box>
   )
 }
