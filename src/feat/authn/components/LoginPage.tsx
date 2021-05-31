@@ -3,8 +3,8 @@ import * as Reach from '@reach/router'
 import { css } from 'emotion'
 import React, { useRef } from 'react'
 import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
-import { LoadingSpinner } from '../../home/components/App/LoadingSpinner'
-import { UserProfileEditModal } from '../../home/components/App/LeftNav/UserProfile/UserProfileEditModal'
+import { LoadingSpinner } from '../../home/components/app/loading-spinner.component'
+import { UserProfileEditModal } from '../../home/components/app/left-nav/UserProfile/UserProfileEditModal'
 import {
   notifMutators,
   notifSelectors,

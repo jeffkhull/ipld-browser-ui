@@ -7,7 +7,7 @@ import { doTextileLogin } from '../authn/textile/TextileSession'
 import { IndexPrefixName } from '../indexes/models/IndexPrefixName'
 import { NotificationService } from '../notifications/services/NotificationService'
 import { notifSelectors, useNotificationStore } from '../notifications/stores/NotificationStore'
-import { ErrorBoundary } from '../telemetry/components/ErrorBoundary'
+import { ErrorBoundary } from '../telemetry/components/error-boundary.component'
 import { userStoreSelectors, useUserStore } from '../user/stores/UserStore'
 
 export interface AdminPanelProps {
