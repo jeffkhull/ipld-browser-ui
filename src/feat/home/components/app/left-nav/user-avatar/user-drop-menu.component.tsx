@@ -18,7 +18,7 @@ import {
   useUserStore,
 } from '../../../../../user/stores/UserStore'
 
-import { UserProfileEditModal } from '../UserProfile/UserProfileEditModal'
+import { UserProfileEditModal } from '../user-profile/user-profit-edit-modal.component'
 
 export interface UserDropMenuProps {
   userDropRef: any

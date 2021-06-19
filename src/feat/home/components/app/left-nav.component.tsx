@@ -1,22 +1,14 @@
-import { Box, Button, Flex, Spacer, VStack } from '@chakra-ui/react'
-// import { css } from 'emotion'
+import { Box, Button, Flex, Spacer } from '@chakra-ui/react'
 import { css } from 'emotion'
 import React from 'react'
-import {
-  GrContract,
-  GrCube,
-  GrExpand,
-  GrHelp,
-  GrHome,
-  GrProjects,
-  GrSearch,
-  GrSettingsOption,
-} from 'react-icons/gr'
+import { BiWorld } from 'react-icons/bi'
+import { GrContract, GrCube, GrExpand, GrHelp, GrHome, GrProjects, GrSearch } from 'react-icons/gr'
+
 import { navigateWithCtrlSensitivity } from '../../../../common/util/navigate'
 import { EntitySearchModal } from '../../../entity/components/entity-search-modal.component'
-import { SpacesAvatar } from '../../../spaces/components/spaces-avatar.component'
-import { UserAvatar } from './left-nav/UserAvatar'
+import { UserAvatar } from './left-nav/user-avatar.component'
 
+// import { css } from 'emotion'
 export const styleNavlink = css`
   height: 4rem;
   padding: 12px;
@@ -62,7 +54,18 @@ export function LeftNav(props: NavStripProps) {
 
   return (
     <Box id="left-nav" backgroundColor="teal.200" width={sidebarWidth}>
-      <SpacesAvatar isCollapsed={isCollapsed} />
+      <Button
+        variant="ghost"
+        size="large"
+        id="worldgraph-btn"
+        className={styleNavlink}
+        leftIcon={<BiWorld className={styleNavIcon} size="24px" />}
+        onClick={(e) => navigateWithCtrlSensitivity('/', e)}
+        ref={homeRef as any}
+      >
+        {isCollapsed ? undefined : 'Worldgraph'}
+      </Button>
+      {/* <SpacesAvatar isCollapsed={isCollapsed} /> */}
       <Flex direction="column" marginTop="3rem">
         <Button
           variant="ghost"
@@ -125,11 +128,11 @@ export function LeftNav(props: NavStripProps) {
         >
           {isCollapsed ? undefined : 'Help'}
         </Button>
-        {showSearchModal && <EntitySearchModal onClose={() => setShowSearchModal(false)} />}
         <Spacer />
         <UserAvatar className={styleNavlink} isCollapsed={isCollapsed} />
         {toggleExpandButton}
       </Flex>
+      {showSearchModal && <EntitySearchModal onClose={() => setShowSearchModal(false)} />}
     </Box>
   )
 }

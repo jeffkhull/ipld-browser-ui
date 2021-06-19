@@ -4,7 +4,7 @@ import { css } from 'emotion'
 import React, { useRef } from 'react'
 import { repoMgr } from '../../../common/storage/repos/repo-manager.service'
 import { LoadingSpinner } from '../../home/components/app/loading-spinner.component'
-import { UserProfileEditModal } from '../../home/components/app/left-nav/UserProfile/UserProfileEditModal'
+import { UserProfileEditModal } from '../../home/components/app/left-nav/user-profile/user-profit-edit-modal.component'
 import {
   notifMutators,
   notifSelectors,

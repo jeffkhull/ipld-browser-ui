@@ -1,7 +1,7 @@
 import { Avatar } from 'grommet'
 import { Box, Button } from '@chakra-ui/react'
 import React from 'react'
-import { UserDropMenu } from './UserAvatar/UserDropMenu'
+import { UserDropMenu } from './user-avatar/user-drop-menu.component'
 import { userStoreSelectors, useUserStore } from '../../../../user/stores/UserStore'
 import { GrUser } from 'react-icons/gr'
 
