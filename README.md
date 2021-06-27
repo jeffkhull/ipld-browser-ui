@@ -46,7 +46,6 @@ npm start
 
 1. [React](https://reactjs.org/) - Framework
 1. [Chakra UI](https://chakra-ui.com/) (using going forward)
-1. [Grommet](https://v2.grommet.io) (phasing out)
 1. [React Icons](https://react-icons.github.io/react-icons/)
 
 ### Global state management

@@ -7,7 +7,7 @@ import { doTextileLogin } from '../authn/textile/TextileSession'
 import { IndexPrefixName } from '../indexes/models/IndexPrefixName'
 import { NotificationService } from '../notifications/services/NotificationService'
 import { notifSelectors, useNotificationStore } from '../notifications/stores/NotificationStore'
-import { ErrorBoundary } from '../telemetry/components/ErrorBoundary'
+import { ErrorBoundary } from '../telemetry/components/error-boundary.component'
 import { userStoreSelectors, useUserStore } from '../user/stores/UserStore'
 
 export interface AdminPanelProps {
@@ -27,36 +27,9 @@ export function AdminPanel(props: AdminPanelProps) {
     return new NotificationService(notifStore)
   }, [notifStore])
 
-  const rebuildEntityIndexes = React.useCallback(async () => {
-    throw new NotImplementedException('Method')
-    // const req: ForceIndexRebuildCmd = {
-    //   IndexPrefixName: IndexPrefixName.entn,
-    //   NamespaceId: user.defaultNamespaceId,
-    // }
-    // const res = await indexApi.forceIndexUpdates(req)
-    // // TODO - use new notify function in place of this one
-    // notifService.notify(res.Msg)
-  }, [user.defaultNamespaceId])
+  const importData = React.useCallback(() => {}, [])
 
-  const rebuildClassIndexes = React.useCallback(async () => {
-    throw new NotImplementedException('Method')
-    // const req: ForceIndexRebuildCmd = {
-    //   IndexPrefixName: IndexPrefixName.clsn,
-    //   NamespaceId: user.defaultNamespaceId,
-    // }
-    // const res = await indexApi.forceIndexUpdates(req)
-    // notifService.notify(res.Msg)
-  }, [user.defaultNamespaceId])
-
-  const rebuildRelationIndexes = React.useCallback(async () => {
-    throw new NotImplementedException('Method')
-    // const req: ForceIndexRebuildCmd = {
-    //   IndexPrefixName: IndexPrefixName.reln,
-    //   NamespaceId: user.defaultNamespaceId,
-    // }
-    // const res = await indexApi.forceIndexUpdates(req)
-    // notifService.notify(res.Msg)
-  }, [user.defaultNamespaceId])
+  const exportData = React.useCallback(async () => {}, [])
 
   return (
     <ErrorBoundary regionName="AdminPanel">
@@ -65,28 +38,12 @@ export function AdminPanel(props: AdminPanelProps) {
           padding: 20px;
         `}
       >
-        <Heading>Force Rebuild Indexes</Heading>
+        <Heading>Data import / export</Heading>
         <Box className={rebuildBtn}>
-          <Button onClick={() => rebuildEntityIndexes()}>Entities</Button>
+          <Button onClick={() => importData()}>Import Data</Button>
         </Box>
         <Box className={rebuildBtn}>
-          <Button onClick={() => rebuildClassIndexes()}>Classes</Button>
-        </Box>
-        <Box className={rebuildBtn}>
-          <Button onClick={() => rebuildRelationIndexes()}>Relations</Button>
-        </Box>
-        <Box className={rebuildBtn}>
-          <Button onClick={() => doTextileLogin()}>Login with Metamask</Button>
-        </Box>
-        <Box className={rebuildBtn}>
-          <Button
-            onClick={async () => {
-              //   const items = await repoMgr.kvPairs.getAll();
-              //   console.log(`items from repo: `, items);
-            }}
-          >
-            Test Repo Manager
-          </Button>
+          <Button onClick={() => exportData()}>Export Data</Button>
         </Box>
       </Box>
     </ErrorBoundary>
