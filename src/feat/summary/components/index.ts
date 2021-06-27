@@ -1,1 +1,1 @@
-export * from './KnowledgeSummaryPanel'
+export * from './knowledge-summary-panel.component'

@@ -6,7 +6,7 @@ import { EntityRelation, EntityRelationResource } from '../model/entity-relation
 import {
   EntityRelationOneSide,
   EntityRelationOneSideResource,
-} from '../model/EntityRelationOneSide'
+} from '../model/entity-relation-one-side.component'
 
 export class EntityRelationService {
   static getInboundRelationsReadable = async (eid: string): Promise<EntityRelationOneSide[]> => {
