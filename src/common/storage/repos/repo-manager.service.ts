@@ -1,6 +1,3 @@
-import { Collection, Database } from '@textile/threaddb'
-import { CollectionConfig } from '@textile/threaddb/dist/cjs/remote/grpc'
-
 import { EntityClass } from '../../../feat/class/models/entity-class.model'
 import { EntityClassSchema } from '../../../feat/class/textileSchemas/entity-class.schema'
 import { EntityDocument } from '../../../feat/entity/model/entity-document.model'
