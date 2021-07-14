@@ -9,8 +9,7 @@ export class UserFavoritesService {
   static getForTargetId = async (entityId: string): Promise<UserFavorite[]> => {
     try {
       await repoMgr.awaitInitialized()
-      const qry = repoMgr.userFavorites.find({ targetId: { $eq: entityId } })
-      return await qry.toArray()
+      return await repoMgr.userFavorites.find({ targetId: { $eq: entityId } })
     } catch (err) {
       console.error(`Error getting user favorite for target ID`, err)
       throw err
@@ -20,8 +19,7 @@ export class UserFavoritesService {
   static getAll = async (): Promise<UserFavorite[]> => {
     try {
       await repoMgr.awaitInitialized()
-      const qry = repoMgr.userFavorites.find()
-      return await qry.toArray()
+      return await repoMgr.userFavorites.getAll()
     } catch (err) {
       console.error(`Error getting user favorites`, err)
       throw err
@@ -31,10 +29,9 @@ export class UserFavoritesService {
   static createFavorite = async (entityId: string) => {
     try {
       await repoMgr.awaitInitialized()
-      const fav = repoMgr.userFavorites.create(
+      const fav = await repoMgr.userFavorites.create(
         new UserFavoriteResource(entityId, UserFavoriteType.Entity),
       )
-      await fav.save()
       return fav
     } catch (err) {
       console.error(`Error creating favorite`, err)
@@ -44,8 +41,8 @@ export class UserFavoritesService {
 
   static deleteFavorite = async (entityId: string) => {
     // throw new NotImplementedException('UserFavoritesService.deleteFavorite')
-    const qry = repoMgr.userFavorites.find({ targetId: { $eq: entityId } })
-    void qry.delete()
+    const res = await repoMgr.userFavorites.find({ targetId: { $eq: entityId } })
+    await repoMgr.userFavorites.deleteMany(res)
   }
 
   static getAllReadable = async (): Promise<UserFavoriteReadable[]> => {

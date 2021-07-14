@@ -1,7 +1,6 @@
-import { JSONSchema } from '@textile/threaddb'
-import { CollectionConfig } from '@textile/threaddb/dist/cjs/remote/grpc'
+import { JSONSchema7 } from 'json-schema'
 
-export const UserFavoriteSchema: JSONSchema = {
+export const UserFavoriteSchema: JSONSchema7 = {
   title: 'UserFavorite',
   type: 'object',
   required: ['_id', 'targetId', 'type'],
@@ -19,8 +18,4 @@ export const UserFavoriteSchema: JSONSchema = {
       description: 'User favorite type',
     },
   },
-}
-export const UserFavoriteCollection: CollectionConfig = {
-  name: 'UserFavorite',
-  schema: UserFavoriteSchema,
 }

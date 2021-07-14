@@ -8,7 +8,7 @@ export class EntityHeaderService {
   static createEntity = async (name: string, namespaceId = 'default'): Promise<EntityHeader> => {
     try {
       const instance = repoMgr.entHeaders.create(new EntityHeaderResource(namespaceId, name))
-      await instance.save()
+      //       await instance.save()
       return instance
     } catch (err) {
       console.error(`Error creating entity header!`, err)
@@ -18,10 +18,11 @@ export class EntityHeaderService {
 
   static updateEntityName = async (entityId: string, newName: string) => {
     try {
-      const header = await repoMgr.entHeaders.findById(entityId)
+      let header = await repoMgr.entHeaders.findById(entityId)
       if (header == null) throw new Error('No entity found with id' + entityId)
       header.name = newName
-      await header.save()
+      header = { ...header, name: newName }
+      await repoMgr.entHeaders.upsert(header)
     } catch (err) {
       console.error(`Error in updateEntityClass for entityId ${entityId}`)
       throw err
@@ -44,8 +45,7 @@ export class EntityHeaderService {
 
   static getAllEntityHeaders = async (): Promise<EntityHeader[]> => {
     await repoMgr.awaitInitialized()
-    const res = repoMgr.entHeaders.find({})
-    return res.toArray()
+    return await repoMgr.entHeaders.getAll()
   }
 
   static updateEntityClass = async (entityId: string, classId: string) => {

@@ -3,8 +3,8 @@ import { blankEntityClass, EntityClass, EntityClassResource } from '../models/en
 
 export class EntityClassService {
   static createEntityClass = async (name: string, namespaceId: string) => {
-    const instance = repoMgr.classes.create(new EntityClassResource(name, namespaceId))
-    await instance.save()
+    const instance = await repoMgr.classes.create(new EntityClassResource(name, namespaceId))
+    //     await instance.save()
     return instance
   }
   static getEntityClass = async (id: string) => {
